@@ -19,11 +19,22 @@ app.use(express.json());
 app.use(express.urlencoded({extended: false}));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
+const cors = require('cors')
+app.use(cors())
+
 
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
 app.use('/auth', authRouter);
 
+
+// Allow CORS
+app.use(function (req, res, next) {
+    res.header("Access-Control-Allow-Origin", "*");
+    res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept, authToken, Access-Token, Uid");
+    res.header("Access-Control-Allow-Methods", 'PUT, POST, GET, DELETE, OPTIONS');
+    next();
+});
 
 // AUTO GENERATED ERROR BOUNDARY FROM EXPRESS GENERATOR
 // catch 404 and forward to error handler
